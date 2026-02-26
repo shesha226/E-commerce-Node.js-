@@ -18,7 +18,19 @@ const orderSchema = new mongoose.Schema({
     paymentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "UserPayment"
-    }
+    },
+    shippingAddress: {
+        type: String,
+        required: true,
+    },
+    paymentMethod: {
+        type: String,
+        required: true,
+    },
+    items: {
+        type: Array,
+        required: true,
+    },
 }, { timestamps: true });
 
 const Order = mongoose.model("Order", orderSchema);

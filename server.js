@@ -6,6 +6,7 @@ const connectDB = require("./src/config/db");
 const userRoutes = require("./src/routes/userRoutes");
 const productRoutes = require("./src/routes/productRoutes");
 const orderRoutes = require("./src/routes/orderRoute");
+const cartItemRouter = require("./src/routes/cartitemsRoute")
 
 
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/cartItem", cartItemRouter);
 
 const PORT = process.env.PORT || 3000;
 

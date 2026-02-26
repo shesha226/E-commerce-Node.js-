@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-package-lock.json  # (Optional: සමහරු මේක commit කරනවා, සමහරු නෑ. කැමති නම් තියාගන්න)
+package-lock.json 
 
 # Environment Variables (Security 🔒)
 .env
@@ -31,6 +31,5 @@ dist/
 build/
 
 # Uploaded Files (User Uploads)
-# ඔයා images/files upload කරන folder එක git එකට යවන්න ඕන නැත්නම් මෙතන දාන්න
 uploads/
 images/
