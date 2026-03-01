@@ -4,7 +4,7 @@ const UserAddressService = require("../service/userAddressService");
 const createUserAddress = async (req, res) => {
     try {
         const userAddress = await UserAddressService.createUserAddress(req.body);
-        res.status(201).json({ message: "create User Address", UserAddress })
+        res.status(201).json({ message: "create User Address", userAddress })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

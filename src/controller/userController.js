@@ -1,12 +1,15 @@
 const userService = require("../service/userService");
+const generateToken = require("../utils/generateToken");
 
 const registerUser = async (req, res) => {
     try {
         const user = await userService.registerUser(req.body);
+        const token = generateToken(user._id);
         res.status(201).json({
             success: true,
             message: "User Registered Successfully!",
-            data: user
+            data: user,
+            token
         });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -16,11 +19,21 @@ const registerUser = async (req, res) => {
 const logingUser = async (req, res) => {
     try {
         const result = await userService.logingUser(req.body);
-        res.status(200).json({
-            success: true,
-            message: "User Logged In Successfully!",
-            data: result
-        });
+        if (user) {
+            const token = generateToken(user._id);
+
+            res.status(200).json({
+                success: true,
+                message: "User Logged In Successfully!",
+                data: {
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                    token: token
+                }
+            });
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -32,7 +45,8 @@ const getAllUsers = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Users Fetched Successfully!",
-            data: users
+            data: users,
+            token
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

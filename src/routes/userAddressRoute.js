@@ -2,16 +2,17 @@ const express = require("express");
 const router = express.Router();
 const userAddressController = require("../controller/userAdressController");
 
-// CREATE
-router.post("/", userAddressController.createUserAddress);
+const validate = require("../middleware/validate");
+const protect = require("../middleware/protect");
+const { userAddressSchema } = require("../validators/schema");
 
-// GET by ID
-router.get("/:id", userAddressController.getUserAddress);
 
-// UPDATE
-router.put("/:id", userAddressController.updateUserAddress);
+router.post("/", validate(userAddressSchema), protect, userAddressController.createUserAddress);
 
-// DELETE
-router.delete("/:id", userAddressController.deleteUserAddress);
+router.get("/:id", protect, userAddressController.getUserAddress);
+
+router.put("/:id", protect, userAddressController.updateUserAddress);
+
+router.delete("/:id", protect, userAddressController.deleteUserAddress);
 
 module.exports = router;
