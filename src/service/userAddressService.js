@@ -3,9 +3,9 @@ const UserAddress = require("../models/userAddress");
 
 const createUserAddress = async (userAddressData) => {
     try {
-        const { userId, address, city, state, pincode, country } = userAddressData;
+        const { userId, address, city, state, zip, country } = userAddressData;
 
-        if (!userId || !address || !city || !state || !pincode || !country) {
+        if (!userId || !address || !city || !state || !zip || !country) {
             throw new Error("All fields are required");
         }
         const existingUserAddress = await UserAddress.findOne({ userId, address });
@@ -21,26 +21,29 @@ const createUserAddress = async (userAddressData) => {
 }
 
 
-const getUserAddressById = async (userId) => {
+const getUserAddressByUserId = async (userId) => {
     try {
-
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             throw new Error("Invalid User Id");
         }
-        const userAddress = await UserAddress.findById(userId);
-        return userAddress;
-    }
-    catch (error) {
+
+        const userAddresses = await UserAddress.find({ userId });
+        if (!userAddresses || userAddresses.length === 0) {
+            throw new Error("User Address not found");
+        }
+
+        return userAddresses;
+    } catch (error) {
         throw error;
     }
 }
 
-const updateUserAddress = async (userId, userAddressData) => {
+const updateUserAddress = async (addressId, userAddressData) => {
     try {
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
+        if (!mongoose.Types.ObjectId.isValid(addressId)) {
             throw new Error("Invalid User Id");
         }
-        const userAddress = await UserAddress.findByIdAndUpdate(userId, userAddressData, { new: true });
+        const userAddress = await UserAddress.findByIdAndUpdate(addressId, userAddressData, { new: true });
 
         if (!userAddress) {
             throw new Error("User Address not found");
@@ -74,4 +77,4 @@ const deleteUserAddress = async (userId) => {
 }
 
 
-module.exports = { createUserAddress, getUserAddressById, updateUserAddress, deleteUserAddress };
+module.exports = { createUserAddress, getUserAddressByUserId, updateUserAddress, deleteUserAddress };
